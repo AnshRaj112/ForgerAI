@@ -1,0 +1,12 @@
+{
+  "name": "@forgerai/proto",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "sh ./scripts/generate.sh",
+    "generate:go": "sh ./scripts/generate.sh go",
+    "generate:python": "sh ./scripts/generate.sh python",
+    "generate:rust": "sh ./scripts/generate.sh rust"
+  }
+}

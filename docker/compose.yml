@@ -1,0 +1,274 @@
+name: forgeai
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: forgeai-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: forgeai
+      MONGO_INITDB_ROOT_PASSWORD: forgeai
+      MONGO_INITDB_DATABASE: forgeai
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - forgeai-net
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  redis:
+    image: redis:7-alpine
+    container_name: forgeai-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    networks:
+      - forgeai-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  nats:
+    image: nats:2.10-alpine
+    container_name: forgeai-nats
+    restart: unless-stopped
+    command: ["-js", "-m", "8222"]
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    volumes:
+      - nats-data:/data
+    networks:
+      - forgeai-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8222/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.web
+    container_name: forgeai-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_REALTIME_URL: http://localhost:4010
+      FORGE_REALTIME_EVENT_URL: http://node-realtime:4010/events
+      FORGE_GO_ORCHESTRATOR_URL: http://go-orchestrator:4001
+      FORGE_PYTHON_AI_URL: http://python-ai:4002
+      FORGE_RUST_EXECUTOR_URL: http://rust-executor:4003
+      FORGE_JAVA_ENTERPRISE_URL: http://java-enterprise:4004
+      FORGE_RUBY_WORKFLOW_URL: http://ruby-workflow:4005
+      FORGE_PHP_CMS_URL: http://php-cms:4006
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_REDIS_URL: redis://redis:6379
+      FORGE_NATS_URL: nats://nats:4222
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+      go-orchestrator:
+        condition: service_started
+      python-ai:
+        condition: service_started
+      rust-executor:
+        condition: service_started
+      java-enterprise:
+        condition: service_started
+      ruby-workflow:
+        condition: service_started
+      php-cms:
+        condition: service_started
+      node-realtime:
+        condition: service_started
+    networks:
+      - forgeai-net
+
+  go-orchestrator:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.go
+    container_name: forgeai-go-orchestrator
+    restart: unless-stopped
+    ports:
+      - "4001:4001"
+    environment:
+      PORT: 4001
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_REDIS_URL: redis://redis:6379
+      FORGE_NATS_URL: nats://nats:4222
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    networks:
+      - forgeai-net
+
+  python-ai:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.python
+    container_name: forgeai-python-ai
+    restart: unless-stopped
+    ports:
+      - "4002:4002"
+    environment:
+      PORT: 4002
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_REDIS_URL: redis://redis:6379
+      FORGE_NATS_URL: nats://nats:4222
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    networks:
+      - forgeai-net
+
+  rust-executor:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.rust
+    container_name: forgeai-rust-executor
+    restart: unless-stopped
+    ports:
+      - "4003:4003"
+    environment:
+      PORT: 4003
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_REDIS_URL: redis://redis:6379
+      FORGE_NATS_URL: nats://nats:4222
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    networks:
+      - forgeai-net
+
+  java-enterprise:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.java
+    container_name: forgeai-java-enterprise
+    restart: unless-stopped
+    ports:
+      - "4004:4004"
+    environment:
+      PORT: 4004
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_REDIS_URL: redis://redis:6379
+      FORGE_NATS_URL: nats://nats:4222
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    networks:
+      - forgeai-net
+
+  ruby-workflow:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.ruby
+    container_name: forgeai-ruby-workflow
+    restart: unless-stopped
+    ports:
+      - "4005:4005"
+    environment:
+      PORT: 4005
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_REDIS_URL: redis://redis:6379
+      FORGE_NATS_URL: nats://nats:4222
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    networks:
+      - forgeai-net
+
+  php-cms:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.php
+    container_name: forgeai-php-cms
+    restart: unless-stopped
+    ports:
+      - "4006:4006"
+    environment:
+      PORT: 4006
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_REDIS_URL: redis://redis:6379
+      FORGE_NATS_URL: nats://nats:4222
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    networks:
+      - forgeai-net
+
+  node-realtime:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.node
+    container_name: forgeai-node-realtime
+    restart: unless-stopped
+    ports:
+      - "4010:4010"
+    environment:
+      PORT: 4010
+      FORGE_REDIS_URL: redis://redis:6379
+      FORGE_NATS_URL: nats://nats:4222
+    depends_on:
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    networks:
+      - forgeai-net
+
+networks:
+  forgeai-net:
+    name: forgeai-net
+    driver: bridge
+
+volumes:
+  mongo-data:
+  redis-data:
+  nats-data:

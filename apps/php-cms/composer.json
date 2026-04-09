@@ -1,0 +1,13 @@
+{
+  "name": "forgerai/php-cms",
+  "description": "ForgeAI PHP CMS skeleton (Laravel-style API)",
+  "type": "project",
+  "require": {
+    "php": "^8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  }
+}

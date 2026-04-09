@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package forgerai.common.v1;
+
+option go_package = "github.com/forgerai/go-orchestrator/gen/common/v1;commonv1";
+
+message Metadata {
+  string request_id = 1;
+  string project_id = 2;
+  string actor_id = 3;
+  int64 timestamp_unix_ms = 4;
+}
+
+enum LanguageRuntime {
+  LANGUAGE_RUNTIME_UNSPECIFIED = 0;
+  LANGUAGE_RUNTIME_PYTHON = 1;
+  LANGUAGE_RUNTIME_RUST = 2;
+  LANGUAGE_RUNTIME_GO = 3;
+  LANGUAGE_RUNTIME_JAVA = 4;
+  LANGUAGE_RUNTIME_RUBY = 5;
+  LANGUAGE_RUNTIME_PHP = 6;
+  LANGUAGE_RUNTIME_NODE = 7;
+  LANGUAGE_RUNTIME_TYPESCRIPT = 8;
+}
+
+enum JobStatus {
+  JOB_STATUS_UNSPECIFIED = 0;
+  JOB_STATUS_QUEUED = 1;
+  JOB_STATUS_RUNNING = 2;
+  JOB_STATUS_SUCCEEDED = 3;
+  JOB_STATUS_FAILED = 4;
+  JOB_STATUS_CANCELLED = 5;
+}

@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package forgerai.agent.v1;
+
+import "common.proto";
+
+option go_package = "github.com/forgerai/go-orchestrator/gen/agent/v1;agentv1";
+
+message NodeExecutionContext {
+  string node_id = 1;
+  string node_type = 2;
+  forgerai.common.v1.LanguageRuntime runtime = 3;
+  map<string, string> config = 4;
+}
+
+message ExecuteStepRequest {
+  forgerai.common.v1.Metadata metadata = 1;
+  string execution_id = 2;
+  NodeExecutionContext step = 3;
+  map<string, string> input = 4;
+}
+
+message ExecuteStepResponse {
+  bool ok = 1;
+  string execution_id = 2;
+  string node_id = 3;
+  forgerai.common.v1.JobStatus status = 4;
+  map<string, string> output = 5;
+  string error = 6;
+}
+
+message ExecuteAgentRequest {
+  forgerai.common.v1.Metadata metadata = 1;
+  string agent_id = 2;
+  string version = 3;
+  repeated NodeExecutionContext plan = 4;
+  map<string, string> input = 5;
+}
+
+message ExecuteAgentResponse {
+  bool ok = 1;
+  string execution_id = 2;
+  forgerai.common.v1.JobStatus status = 3;
+  repeated ExecuteStepResponse steps = 4;
+  map<string, string> output = 5;
+  string error = 6;
+}
+
+service AgentExecutorService {
+  rpc ExecuteStep(ExecuteStepRequest) returns (ExecuteStepResponse);
+  rpc ExecuteAgent(ExecuteAgentRequest) returns (ExecuteAgentResponse);
+}

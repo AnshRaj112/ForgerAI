@@ -1,0 +1,10 @@
+C:\ForgerAI\apps\rust-executor\target\debug\deps\ipconfig-e4df8a84fe76c2f7.d: C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\lib.rs C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\adapter.rs C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\bindings\mod.rs C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\bindings\win64.rs C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\computer.rs C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\error.rs
+
+C:\ForgerAI\apps\rust-executor\target\debug\deps\libipconfig-e4df8a84fe76c2f7.rmeta: C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\lib.rs C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\adapter.rs C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\bindings\mod.rs C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\bindings\win64.rs C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\computer.rs C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\error.rs
+
+C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\lib.rs:
+C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\adapter.rs:
+C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\bindings\mod.rs:
+C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\bindings\win64.rs:
+C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\computer.rs:
+C:\Users\KIIT0001\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ipconfig-0.3.4\src\error.rs:

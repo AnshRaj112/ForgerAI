@@ -1,6 +1,15 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "FORGE_REALTIME_EVENT_URL",
+    "FORGE_GO_ORCHESTRATOR_URL",
+    "FORGE_PYTHON_AI_URL",
+    "FORGE_RUST_EXECUTOR_URL",
+    "FORGE_JAVA_ENTERPRISE_URL",
+    "FORGE_RUBY_WORKFLOW_URL",
+    "FORGE_PHP_CMS_URL"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
