@@ -89,7 +89,7 @@ async function main() {
 
   const shutdown = async (signal) => {
     logger.info("shutdown", { signal });
-    server.close();
+    await new Promise((resolve) => server.close(resolve));
     if (queueBundle) await queueBundle.close();
     if (natsBridge) await natsBridge.close();
     await disconnectMongo();

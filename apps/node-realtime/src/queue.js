@@ -1,6 +1,5 @@
 import { Queue, Worker } from "bullmq";
 import { logger } from "./logger.js";
-import { broadcastForgeEvent } from "./broadcast.js";
 
 /**
  * @param {object} input
@@ -17,10 +16,6 @@ export function createQueueAndWorker({ connection, queueName, getCollection }) {
     queueName,
     async (job) => {
       const { name, data } = job;
-      if (name === "broadcast") {
-        broadcastForgeEvent(data.event);
-        return { ok: true };
-      }
       if (name === "persist") {
         const col = await getCollection();
         await col.insertOne({
@@ -28,16 +23,6 @@ export function createQueueAndWorker({ connection, queueName, getCollection }) {
           _ingestedAt: new Date(),
           _source: data.source ?? "unknown",
         });
-        return { ok: true };
-      }
-      if (name === "persistAndBroadcast") {
-        const col = await getCollection();
-        await col.insertOne({
-          ...data.event,
-          _ingestedAt: new Date(),
-          _source: data.source ?? "queue",
-        });
-        broadcastForgeEvent(data.event);
         return { ok: true };
       }
       throw new Error(`unknown job name: ${name}`);

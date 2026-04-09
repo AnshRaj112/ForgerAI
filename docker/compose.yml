@@ -80,6 +80,7 @@ services:
       NODE_ENV: development
       NEXT_PUBLIC_APP_URL: http://localhost:3000
       NEXT_PUBLIC_REALTIME_URL: http://localhost:4010
+      NEXT_PUBLIC_REALTIME_SOCKET_PATH: /socket
       FORGE_REALTIME_EVENT_URL: http://node-realtime:4010/events
       FORGE_GO_ORCHESTRATOR_URL: http://go-orchestrator:4001
       FORGE_PYTHON_AI_URL: http://python-ai:4002
