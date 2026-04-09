@@ -11,7 +11,9 @@ export const clients = {
   goOrchestrator: createGoOrchestratorClient(env.FORGE_GO_ORCHESTRATOR_URL),
   pythonAi: createPythonAiClient(env.FORGE_PYTHON_AI_URL),
   rustExecutor: createRustExecutorClient(env.FORGE_RUST_EXECUTOR_URL),
-  javaEnterprise: createJavaEnterpriseClient(env.FORGE_JAVA_ENTERPRISE_URL),
+  javaEnterprise: createJavaEnterpriseClient(env.FORGE_JAVA_ENTERPRISE_URL, {
+    token: env.FORGE_JAVA_ENTERPRISE_TOKEN,
+  }),
   rubyWorkflow: createRubyWorkflowClient(env.FORGE_RUBY_WORKFLOW_URL),
   phpCms: createPhpCmsClient(env.FORGE_PHP_CMS_URL),
   nodeRealtime: createNodeRealtimeClient(env.NEXT_PUBLIC_REALTIME_URL),

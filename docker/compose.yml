@@ -5,6 +5,7 @@ services:
     image: mongo:7
     container_name: forgeai-mongodb
     restart: unless-stopped
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
     ports:
       - "27017:27017"
     environment:
@@ -16,11 +17,19 @@ services:
     networks:
       - forgeai-net
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      test:
+        [
+          "CMD",
+          "mongosh",
+          "mongodb://forgeai:forgeai@127.0.0.1:27017/admin?authSource=admin",
+          "--quiet",
+          "--eval",
+          "try { rs.status() } catch (e) { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'mongodb:27017' }] }) } db.adminCommand('ping').ok",
+        ]
       interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 20s
+      timeout: 10s
+      retries: 15
+      start_period: 40s
 
   redis:
     image: redis:7-alpine
@@ -78,7 +87,7 @@ services:
       FORGE_JAVA_ENTERPRISE_URL: http://java-enterprise:4004
       FORGE_RUBY_WORKFLOW_URL: http://ruby-workflow:4005
       FORGE_PHP_CMS_URL: http://php-cms:4006
-      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
     depends_on:
@@ -115,7 +124,7 @@ services:
       - "4001:4001"
     environment:
       PORT: 4001
-      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
     depends_on:
@@ -138,7 +147,7 @@ services:
       - "4002:4002"
     environment:
       PORT: 4002
-      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
     depends_on:
@@ -161,7 +170,7 @@ services:
       - "4003:4003"
     environment:
       PORT: 4003
-      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
     depends_on:
@@ -177,14 +186,15 @@ services:
   java-enterprise:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.java
+      dockerfile: apps/java-enterprise/Dockerfile
     container_name: forgeai-java-enterprise
     restart: unless-stopped
     ports:
       - "4004:4004"
     environment:
       PORT: 4004
-      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      SPRING_PROFILES_ACTIVE: dev
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
     depends_on:
@@ -207,7 +217,7 @@ services:
       - "4005:4005"
     environment:
       PORT: 4005
-      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
     depends_on:
@@ -230,7 +240,7 @@ services:
       - "4006:4006"
     environment:
       PORT: 4006
-      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
     depends_on:

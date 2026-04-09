@@ -1,4 +1,4 @@
-package ai.forger.enterprise.domain;
+package ai.forger.enterprise.dto.response;
 
 import java.time.Instant;
 import java.util.List;
@@ -8,5 +8,5 @@ public record ComplianceCheckResponse(
     String agentId,
     boolean compliant,
     List<String> checks,
-    Instant timestamp
+    Instant evaluatedAt
 ) {}

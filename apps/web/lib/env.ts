@@ -8,6 +8,8 @@ const envSchema = z.object({
   FORGE_PYTHON_AI_URL: z.string().url().default("http://localhost:4002"),
   FORGE_RUST_EXECUTOR_URL: z.string().url().default("http://localhost:4003"),
   FORGE_JAVA_ENTERPRISE_URL: z.string().url().default("http://localhost:4004"),
+  /** Optional Bearer token for java-enterprise JWT (POST /api/auth/login). */
+  FORGE_JAVA_ENTERPRISE_TOKEN: z.string().optional(),
   FORGE_RUBY_WORKFLOW_URL: z.string().url().default("http://localhost:4005"),
   FORGE_PHP_CMS_URL: z.string().url().default("http://localhost:4006"),
 });
@@ -20,6 +22,7 @@ export const env = envSchema.parse({
   FORGE_PYTHON_AI_URL: process.env.FORGE_PYTHON_AI_URL,
   FORGE_RUST_EXECUTOR_URL: process.env.FORGE_RUST_EXECUTOR_URL,
   FORGE_JAVA_ENTERPRISE_URL: process.env.FORGE_JAVA_ENTERPRISE_URL,
+  FORGE_JAVA_ENTERPRISE_TOKEN: process.env.FORGE_JAVA_ENTERPRISE_TOKEN,
   FORGE_RUBY_WORKFLOW_URL: process.env.FORGE_RUBY_WORKFLOW_URL,
   FORGE_PHP_CMS_URL: process.env.FORGE_PHP_CMS_URL,
 });
