@@ -1,12 +1,17 @@
-FROM node:22-alpine
-
+# Build from monorepo root: docker build -f apps/node-realtime/Dockerfile .
+# Standalone install (no workspace lockfile path) keeps the image limited to this service.
+FROM node:20-alpine AS deps
 WORKDIR /app
-COPY apps/node-realtime/package.json /app/package.json
-RUN npm install
+COPY apps/node-realtime/package.json ./
+RUN npm install --omit=dev --no-audit --no-fund
 
-COPY apps/node-realtime/src /app/src
-
-ENV PORT=4010
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+RUN addgroup -S nodeapp && adduser -S nodeapp -G nodeapp
+COPY --from=deps /app/node_modules ./node_modules
+COPY apps/node-realtime/package.json ./
+COPY apps/node-realtime/src ./src
+USER nodeapp
 EXPOSE 4010
-
-CMD ["npm", "run", "start"]
+CMD ["node", "src/index.js"]

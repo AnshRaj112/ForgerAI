@@ -1,0 +1,41 @@
+# Base configuration — activate a profile with SPRING_PROFILES_ACTIVE (dev | prod).
+spring:
+  application:
+    name: java-enterprise
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+server:
+  port: ${PORT:4004}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+
+# Enterprise feature flags and integration metadata (non-secret).
+enterprise:
+  integration-mode: ${ENTERPRISE_INTEGRATION_MODE:stub}
+  compliance-provider: ${ENTERPRISE_COMPLIANCE_PROVIDER:default}
+  audit-topic: ${ENTERPRISE_AUDIT_TOPIC:forge.enterprise.audit}
+  cors:
+    allowed-origins:
+      - ${ENTERPRISE_CORS_ORIGIN:http://localhost:3000}
+    allowed-methods:
+      - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+      - OPTIONS
+    allowed-headers:
+      - "*"
+    max-age: 3600

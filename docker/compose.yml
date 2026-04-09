@@ -256,16 +256,20 @@ services:
   node-realtime:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.node
+      dockerfile: apps/node-realtime/Dockerfile
     container_name: forgeai-node-realtime
     restart: unless-stopped
     ports:
       - "4010:4010"
     environment:
       PORT: 4010
+      FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
+      FORGE_CORS_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
     depends_on:
+      mongodb:
+        condition: service_healthy
       redis:
         condition: service_healthy
       nats:

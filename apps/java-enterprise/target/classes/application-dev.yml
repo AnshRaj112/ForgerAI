@@ -1,0 +1,30 @@
+# Local development: permissive CORS, dev JWT secret, bootstrap users with {noop} passwords.
+# MongoDB @Transactional (multi-document) requires a replica set. Docker Compose starts rs0; for a
+# local mongod use: mongod --replSet rs0 then rs.initiate() once via mongosh.
+spring:
+  data:
+    mongodb:
+      uri: ${FORGE_DATABASE_URL:mongodb://localhost:27017/forgeai}
+      database: ${FORGE_DATABASE_NAME:forgeai}
+
+logging:
+  level:
+    ai.forger.enterprise: DEBUG
+    org.springframework.security: INFO
+
+enterprise:
+  cors:
+    allowed-origins:
+      - http://localhost:3000
+      - http://127.0.0.1:3000
+  security:
+    jwt:
+      # HS256: at least 256 bits (32 ASCII chars). Replace in any shared environment.
+      secret: ${ENTERPRISE_JWT_SECRET:dev-enterprise-jwt-secret-min-32-chars!!}
+      expiration-ms: ${ENTERPRISE_JWT_EXPIRATION_MS:86400000}
+    bootstrap-users:
+      - username: enterprise
+        password: "{noop}enterprise"
+        roles:
+          - ENTERPRISE_ADMIN
+          - ENTERPRISE_USER

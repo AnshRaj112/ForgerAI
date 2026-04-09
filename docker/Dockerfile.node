@@ -1,0 +1,16 @@
+# Build from monorepo root. Prefer apps/node-realtime/Dockerfile in compose.
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY apps/node-realtime/package.json ./
+RUN npm install --omit=dev --no-audit --no-fund
+
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+RUN addgroup -S nodeapp && adduser -S nodeapp -G nodeapp
+COPY --from=deps /app/node_modules ./node_modules
+COPY apps/node-realtime/package.json ./
+COPY apps/node-realtime/src ./src
+USER nodeapp
+EXPOSE 4010
+CMD ["node", "src/index.js"]

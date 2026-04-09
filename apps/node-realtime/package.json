@@ -1,15 +1,22 @@
 {
   "name": "@forgerai/node-realtime",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "node --watch src/index.js",
     "start": "node src/index.js"
   },
   "dependencies": {
+    "bullmq": "^5.34.8",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "ioredis": "^5.4.2",
+    "mongodb": "^6.12.0",
+    "nats": "^2.29.3",
     "socket.io": "^4.8.1"
   }
 }

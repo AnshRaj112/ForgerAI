@@ -32,6 +32,7 @@ import {
   Upload,
 } from "lucide-react";
 import { io, type Socket } from "socket.io-client";
+import { env } from "@/lib/env";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -193,8 +194,11 @@ export default function BuilderPage() {
   const manifest = useMemo(() => toManifest(nodes, edges), [nodes, edges]);
 
   useEffect(() => {
-    const realtimeUrl = process.env.NEXT_PUBLIC_REALTIME_URL ?? "http://localhost:4010";
-    const socket: Socket = io(realtimeUrl, { transports: ["websocket"] });
+    const realtimeUrl = env.NEXT_PUBLIC_REALTIME_URL;
+    const socket: Socket = io(realtimeUrl, {
+      transports: ["websocket"],
+      path: env.NEXT_PUBLIC_REALTIME_SOCKET_PATH,
+    });
     socket.on("forge:event", (event: RealtimeEvent) => {
       setEvents((existing) => [event, ...existing].slice(0, 15));
       if (event.type.includes("failed")) setRunStatus("failed");

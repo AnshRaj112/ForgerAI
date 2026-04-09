@@ -1,0 +1,21 @@
+# Production: require strong JWT secret via environment; tighten logging.
+spring:
+  data:
+    mongodb:
+      uri: ${FORGE_DATABASE_URL}
+      database: ${FORGE_DATABASE_NAME:forgeai}
+
+logging:
+  level:
+    ai.forger.enterprise: INFO
+    org.springframework.security: WARN
+
+enterprise:
+  cors:
+    allowed-origins:
+      - ${ENTERPRISE_CORS_ORIGIN:http://localhost:3000}
+  security:
+    jwt:
+      secret: ${ENTERPRISE_JWT_SECRET}
+      expiration-ms: ${ENTERPRISE_JWT_EXPIRATION_MS:43200000}
+    bootstrap-users: []
