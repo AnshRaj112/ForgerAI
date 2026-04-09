@@ -1,0 +1,9 @@
+{
+  "name": "@forgerai/node-realtime",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js"
+  }
+}
