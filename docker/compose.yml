@@ -211,7 +211,7 @@ services:
   ruby-workflow:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.ruby
+      dockerfile: apps/ruby-workflow/Dockerfile
     container_name: forgeai-ruby-workflow
     restart: unless-stopped
     ports:
@@ -221,6 +221,7 @@ services:
       FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
+      FORGE_CORS_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
     depends_on:
       mongodb:
         condition: service_healthy
@@ -234,16 +235,19 @@ services:
   php-cms:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.php
+      dockerfile: apps/php-cms/Dockerfile
     container_name: forgeai-php-cms
     restart: unless-stopped
     ports:
       - "4006:4006"
     environment:
       PORT: 4006
+      APP_ENV: production
+      APP_DEBUG: "false"
       FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
+      FORGE_CORS_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
     depends_on:
       mongodb:
         condition: service_healthy

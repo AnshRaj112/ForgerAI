@@ -1,26 +1,18 @@
 <?php
 
-declare(strict_types=1);
+use Illuminate\Http\Request;
 
-require __DIR__ . '/../bootstrap/app.php';
+define('LARAVEL_START', microtime(true));
 
-$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-$path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
-
-if ($method === 'GET' && $path === '/health') {
-    json_response(['ok' => true, 'service' => 'php-cms']);
-    return;
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
 }
 
-if ($method === 'POST' && $path === '/content/publish') {
-    $payload = json_decode(file_get_contents('php://input') ?: '{}', true) ?? [];
-    $title = $payload['title'] ?? 'Untitled';
-    json_response([
-        'ok' => true,
-        'contentId' => 'content-' . time(),
-        'title' => $title
-    ]);
-    return;
+if (PHP_SAPI === 'cli-server' && is_file(__DIR__.parse_url((string) ($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH))) {
+    return false;
 }
 
-json_response(['ok' => false, 'error' => 'Not found'], 404);
+require __DIR__.'/../vendor/autoload.php';
+
+(require_once __DIR__.'/../bootstrap/app.php')
+    ->handleRequest(Request::capture());

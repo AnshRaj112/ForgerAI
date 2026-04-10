@@ -1,14 +1,30 @@
-FROM ruby:3.3-alpine
+# Build from monorepo root: docker build -f apps/ruby-workflow/Dockerfile .
+FROM ruby:3.3-slim AS builder
+
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends build-essential pkg-config && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-RUN apk add --no-cache build-base
+COPY apps/ruby-workflow/Gemfile apps/ruby-workflow/Gemfile.lock* ./
+RUN bundle config set --local without "development test" && \
+    bundle install --jobs 4 --retry 3
 
-COPY apps/ruby-workflow/Gemfile /app/Gemfile
-RUN bundle config set without "development test" && bundle install
+FROM ruby:3.3-slim AS runner
 
-COPY apps/ruby-workflow /app
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends ca-certificates curl && \
+    rm -rf /var/lib/apt/lists/*
 
+WORKDIR /app
+RUN groupadd --system rubyapp && useradd --system --gid rubyapp rubyapp
+
+COPY --from=builder /usr/local/bundle /usr/local/bundle
+COPY apps/ruby-workflow/ .
+
+USER rubyapp
+ENV RACK_ENV=production
 ENV PORT=4005
 EXPOSE 4005
 
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb", "config.ru"]
