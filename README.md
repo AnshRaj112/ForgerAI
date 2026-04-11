@@ -1,159 +1,159 @@
-# Turborepo starter
+# ForgeAI — Polyglot AI Agent Forge & Marketplace
 
-This Turborepo starter is maintained by the Turborepo core team.
+<div align="center">
 
-## Using this example
+**Build powerful AI agents visually. Automatically compiled into optimized polyglot microservices.**
 
-Run the following command:
+*Python for AI • Rust for Performance • Go for Orchestration • Java for Enterprise • Ruby for Workflows • PHP for CMS • Node.js for Real-Time*
 
-```sh
-npx create-turbo@latest
+</div>
+
+---
+
+## 🚀 What is ForgeAI?
+
+ForgeAI is a **no-code / low-code visual platform** where anyone can build powerful AI agents using a drag-and-drop interface. The unique differentiator is the **Polyglot Compilation Engine**: every agent is automatically broken down into optimized microservices, with each node running in the **best programming language** for that specific task.
+
+## 🏗 Architecture
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    Next.js 15 Gateway (:3000)                │
+│           UI/UX · Visual Builder · API Gateway               │
+└─────────────────────────┬────────────────────────────────────┘
+                          │
+              ┌───────────┴───────────┐
+              │  Go Orchestrator (:4001)│
+              │  Temporal · Workflows  │
+              └───┬───┬───┬───┬───┬───┘
+                  │   │   │   │   │
+    ┌─────────────┼───┼───┼───┼───┼──────────────┐
+    │             │   │   │   │   │              │
+┌───┴───┐  ┌─────┴┐ ┌┴────┐ ┌┴───┐  ┌──────┐ ┌─┴──────────┐
+│Python │  │Rust  │ │Java │ │Ruby│  │ PHP  │ │Node Realtime│
+│AI     │  │Exec  │ │Ent. │ │WF  │  │ CMS  │ │Socket.IO    │
+│:4002  │  │:4003 │ │:4004│ │:4005│  │:4006 │ │:4010        │
+└───────┘  └──────┘ └─────┘ └────┘  └──────┘ └─────────────┘
 ```
 
-## What's inside?
+### Service Responsibilities
 
-This Turborepo includes the following packages/apps:
+| Service | Language | Port | Responsibility |
+|---------|----------|------|----------------|
+| `web` | Next.js 15 | 3000 | UI, Visual Builder (React Flow), API Gateway |
+| `go-orchestrator` | Go | 4001 | Central Brain — Temporal workflows, coordination |
+| `python-ai` | Python | 4002 | LLM/RAG inference, LangChain/LangGraph |
+| `rust-executor` | Rust | 4003 | Crypto, WASM runtime, secure execution |
+| `java-enterprise` | Java/Spring | 4004 | Compliance, audit, transactions, billing |
+| `ruby-workflow` | Ruby/Sinatra | 4005 | Business rules, approval workflows |
+| `php-cms` | PHP/Laravel | 4006 | Content generation, templates, e-commerce |
+| `node-realtime` | Node.js | 4010 | WebSockets, live monitoring, Socket.IO |
 
-### Apps and Packages
+### Infrastructure
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- **Database**: MongoDB 8.0 (persistent) + Redis 7 (cache, queues)
+- **Messaging**: NATS JetStream (async events) + gRPC (sync calls)
+- **Orchestration**: Temporal.io
+- **Containerization**: Docker Compose (dev), Kubernetes (prod)
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## 📦 Monorepo Structure
 
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```
+ForgerAI/
+├── apps/
+│   ├── web/               # Next.js 15 frontend + API gateway
+│   ├── go-orchestrator/   # Go orchestration service
+│   ├── python-ai/         # Python AI/LLM service
+│   ├── rust-executor/     # Rust high-performance executor
+│   ├── java-enterprise/   # Java/Spring Boot enterprise layer
+│   ├── ruby-workflow/     # Ruby workflow engine
+│   ├── php-cms/           # PHP/Laravel CMS service
+│   ├── node-realtime/     # Node.js real-time service
+│   └── docs/              # Documentation
+├── packages/
+│   ├── types/             # Shared TypeScript/Zod schemas
+│   ├── proto/             # Protobuf/gRPC definitions
+│   ├── config/            # Shared environment config
+│   ├── constants/         # Node types, language mappings
+│   ├── ui/                # Shared React component library
+│   ├── eslint-config/     # Shared ESLint configuration
+│   ├── typescript-config/ # Shared TypeScript configuration
+│   └── utils/             # Shared utilities
+├── docker/
+│   ├── compose.yml        # Full Docker Compose stack
+│   └── Dockerfile.*       # Per-service Dockerfiles
+├── infra/
+│   └── kubernetes/        # K8s manifests for production
+└── scripts/
+    ├── generate-proto.sh  # Protobuf code generation
+    └── seed-db.js         # Database seeding script
 ```
 
-Without global `turbo`, use your package manager:
+## 🛠 Getting Started
 
-```sh
-cd my-turborepo
-npx turbo build
-npm dlx turbo build
-npm exec turbo build
-```
+### Prerequisites
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+- Node.js ≥ 18
+- Docker & Docker Compose
+- Go 1.24+, Python 3.12+, Rust 1.80+, Java 21+, Ruby 3.3+, PHP 8.3+
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+### Quick Start
 
-```sh
-turbo build --filter=docs
-```
+```bash
+# 1. Clone the repo
+git clone https://github.com/AnshRaj112/ForgerAI.git
+cd ForgerAI
 
-Without global `turbo`:
+# 2. Install dependencies
+npm install
 
-```sh
-npx turbo build --filter=docs
-npm exec turbo build --filter=docs
-npm exec turbo build --filter=docs
-```
+# 3. Start infrastructure (MongoDB, Redis, NATS)
+docker compose -f docker/compose.yml up mongodb redis nats -d
 
-### Develop
-
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-npm exec turbo dev
-npm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
+# 4. Start the Next.js frontend
 npx turbo dev --filter=web
-npm exec turbo dev --filter=web
-npm exec turbo dev --filter=web
+
+# 5. (Optional) Start all services
+docker compose -f docker/compose.yml up --build
 ```
 
-### Remote Caching
+### Development
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+```bash
+# Run all services in dev mode
+npx turbo dev
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+# Build all packages
+npx turbo build
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+# Lint all packages
+npx turbo lint
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
+# Type check
+npx turbo check-types
 ```
 
-Without global `turbo`, use your package manager:
+## 🎨 Frontend Pages
 
-```sh
-cd my-turborepo
-npx turbo login
-npm exec turbo login
-npm exec turbo login
-```
+| Route | Description |
+|-------|-------------|
+| `/` | Landing page with hero, features, architecture diagram |
+| `/dashboard` | Agent overview, stats, activity feed |
+| `/builder` | Visual drag-and-drop agent builder (React Flow) |
+| `/marketplace` | Browse, search, and install pre-built agents |
+| `/deployments` | Monitor deployed agents across environments |
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## 📡 API Gateway Routes
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+| Endpoint | Method | Target Service |
+|----------|--------|---------------|
+| `/api/forge/compile` | POST | Go Orchestrator |
+| `/api/forge/deploy` | POST | Go Orchestrator |
+| `/api/forge/run-agent` | POST | Python AI |
+| `/api/forge/status/[jobId]` | GET | Go Orchestrator |
+| `/api/forge/manifest` | GET/POST | Internal (MongoDB) |
+| `/api/forge/compile-manifest` | POST | Go Orchestrator |
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+## 📄 License
 
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-npm exec turbo link
-npm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+MIT © ForgeAI

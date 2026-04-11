@@ -1,46 +1,264 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════
+   ForgeAI Design System — Dark-first, Glassmorphic, Premium
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ---------- Brand palette ---------- */
 :root {
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.17 0 0);
-  --card: oklch(0.99 0 0);
-  --card-foreground: oklch(0.17 0 0);
-  --muted: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.5 0 0);
-  --border: oklch(0.9 0 0);
-  --primary: oklch(0.6 0.2 260);
-  --primary-foreground: oklch(0.99 0 0);
+  /* Core neutrals */
+  --forge-bg: #09090b;
+  --forge-bg-subtle: #0f0f13;
+  --forge-bg-muted: #18181b;
+  --forge-bg-elevated: #1c1c22;
+
+  --forge-fg: #fafafa;
+  --forge-fg-muted: #a1a1aa;
+  --forge-fg-subtle: #71717a;
+
+  --forge-border: #27272a;
+  --forge-border-muted: #1e1e22;
+
+  /* Accent — electric indigo → violet */
+  --forge-accent: #6366f1;
+  --forge-accent-hover: #818cf8;
+  --forge-accent-muted: rgba(99, 102, 241, 0.15);
+  --forge-accent-glow: rgba(99, 102, 241, 0.35);
+
+  /* Semantic */
+  --forge-success: #22c55e;
+  --forge-warning: #f59e0b;
+  --forge-error: #ef4444;
+  --forge-info: #3b82f6;
+
+  /* Language colors (polyglot badges) */
+  --lang-python: #3b82f6;
+  --lang-rust: #f97316;
+  --lang-go: #06b6d4;
+  --lang-java: #ef4444;
+  --lang-ruby: #ec4899;
+  --lang-php: #8b5cf6;
+  --lang-node: #22c55e;
+  --lang-typescript: #3b82f6;
+
+  /* Glass effects */
+  --forge-glass-bg: rgba(255, 255, 255, 0.03);
+  --forge-glass-border: rgba(255, 255, 255, 0.06);
+  --forge-glass-hover: rgba(255, 255, 255, 0.06);
+  --forge-glass-blur: 16px;
+
+  /* Gradients */
+  --forge-gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+  --forge-gradient-hero: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+  --forge-gradient-surface: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, transparent 100%);
+
+  /* Shadows */
+  --forge-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --forge-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --forge-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --forge-shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
+  --forge-shadow-glow-lg: 0 0 60px rgba(99, 102, 241, 0.2);
+
+  /* Radii */
+  --forge-radius-sm: 6px;
+  --forge-radius-md: 10px;
+  --forge-radius-lg: 16px;
+  --forge-radius-xl: 24px;
+  --forge-radius-full: 9999px;
+
+  /* Transitions */
+  --forge-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --forge-transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Compatibility aliases */
+  --background: var(--forge-bg);
+  --foreground: var(--forge-fg);
+  --card: var(--forge-bg-elevated);
+  --card-foreground: var(--forge-fg);
+  --muted: var(--forge-bg-muted);
+  --muted-foreground: var(--forge-fg-muted);
+  --border: var(--forge-border);
+  --primary: var(--forge-accent);
+  --primary-foreground: #fff;
 }
 
-.dark {
-  --background: oklch(0.18 0 0);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.23 0 0);
-  --card-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.28 0 0);
-  --muted-foreground: oklch(0.76 0 0);
-  --border: oklch(0.34 0 0);
-  --primary: oklch(0.69 0.18 257);
-  --primary-foreground: oklch(0.14 0 0);
-}
-
-* {
+/* ---------- Global resets ---------- */
+*, *::before, *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html,
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
-  max-width: 100vw;
+  background: var(--forge-bg);
+  color: var(--forge-fg);
+  font-family: var(--font-geist-sans), 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
-body {
-  margin: 0;
-  color: var(--foreground);
-  background: var(--background);
+::selection {
+  background: var(--forge-accent);
+  color: white;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--forge-border);
+  border-radius: var(--forge-radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--forge-fg-subtle);
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--forge-accent);
+  outline-offset: 2px;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* ---------- Keyframe Animations ---------- */
+@keyframes forge-pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes forge-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes forge-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes forge-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes forge-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes forge-fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes forge-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes forge-slide-in-right {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes forge-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes forge-border-glow {
+  0%, 100% { border-color: rgba(99, 102, 241, 0.15); }
+  50% { border-color: rgba(99, 102, 241, 0.4); }
+}
+
+@keyframes forge-particle-drift {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translate(var(--drift-x, 100px), var(--drift-y, -200px)) scale(0); opacity: 0; }
+}
+
+/* ---------- Utility classes ---------- */
+.forge-glass {
+  background: var(--forge-glass-bg);
+  backdrop-filter: blur(var(--forge-glass-blur));
+  -webkit-backdrop-filter: blur(var(--forge-glass-blur));
+  border: 1px solid var(--forge-glass-border);
+}
+
+.forge-glass:hover {
+  background: var(--forge-glass-hover);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.forge-card {
+  background: var(--forge-bg-elevated);
+  border: 1px solid var(--forge-border);
+  border-radius: var(--forge-radius-lg);
+  transition: all var(--forge-transition);
+}
+
+.forge-card:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: var(--forge-shadow-glow);
+  transform: translateY(-2px);
+}
+
+.forge-gradient-text {
+  background: var(--forge-gradient-hero);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: forge-gradient-shift 6s ease-in-out infinite;
+}
+
+.forge-animate-in {
+  animation: forge-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.forge-animate-in-delayed {
+  animation: forge-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  opacity: 0;
+}
+
+.forge-animate-in-delayed-2 {
+  animation: forge-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  opacity: 0;
+}
+
+.forge-animate-in-delayed-3 {
+  animation: forge-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+  opacity: 0;
+}
+
+/* ---------- Grid background pattern ---------- */
+.forge-grid-bg {
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.forge-dot-bg {
+  background-image: radial-gradient(circle, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
 }

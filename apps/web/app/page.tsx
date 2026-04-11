@@ -1,101 +1,149 @@
-import Image, { type ImageProps } from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
+"use client";
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
-
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
-
-  return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
+import { Hero } from "@/components/landing/hero";
+import { Features } from "@/components/landing/features";
+import { Architecture } from "@/components/landing/architecture";
+import Link from "next/link";
+import { Github, Twitter } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>apps/web/app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen" style={{ background: "var(--forge-bg)" }}>
+      {/* ─── Navbar ─── */}
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 h-16"
+        style={{
+          background: "rgba(9, 9, 11, 0.8)",
+          backdropFilter: "blur(16px)",
+          borderBottom: "1px solid var(--forge-border-muted)",
+        }}
+      >
+        <Link href="/" className="flex items-center gap-2.5">
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm"
+            style={{ background: "var(--forge-gradient-accent)" }}
+          >
+            F
+          </div>
+          <span className="text-lg font-bold" style={{ color: "var(--forge-fg)" }}>
+            ForgeAI
+          </span>
+        </Link>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://turborepo.dev/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+        <div className="hidden sm:flex items-center gap-8">
+          {[
+            { label: "Builder", href: "/builder" },
+            { label: "Marketplace", href: "/marketplace" },
+            { label: "Dashboard", href: "/dashboard" },
+            { label: "Docs", href: "#" },
+          ].map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium transition-colors duration-200"
+              style={{ color: "var(--forge-fg-muted)" }}
+              onMouseOver={(e) => (e.currentTarget.style.color = "var(--forge-fg)")}
+              onMouseOut={(e) => (e.currentTarget.style.color = "var(--forge-fg-muted)")}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://turborepo.dev?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to turborepo.dev →
-        </a>
+
+        <div className="flex items-center gap-3">
+          <Link href="/builder">
+            <button
+              className="h-9 px-4 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer"
+              style={{
+                background: "var(--forge-accent)",
+                color: "white",
+                boxShadow: "0 0 20px rgba(99,102,241,0.25)",
+              }}
+            >
+              Get Started
+            </button>
+          </Link>
+        </div>
+      </nav>
+
+      {/* ─── Hero ─── */}
+      <Hero />
+
+      {/* ─── Features ─── */}
+      <Features />
+
+      {/* ─── Architecture ─── */}
+      <Architecture />
+
+      {/* ─── CTA Section ─── */}
+      <section className="relative py-32 px-6">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse at center, rgba(99,102,241,0.08) 0%, transparent 70%)",
+          }}
+        />
+        <div className="relative max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6">
+            Ready to{" "}
+            <span className="forge-gradient-text">Forge Your First Agent</span>?
+          </h2>
+          <p className="text-lg mb-10" style={{ color: "var(--forge-fg-muted)" }}>
+            Join the polyglot revolution. Build faster, deploy smarter, scale infinitely.
+          </p>
+          <Link href="/builder">
+            <button
+              className="h-14 px-10 rounded-xl text-base font-semibold transition-all duration-300 cursor-pointer"
+              style={{
+                background: "var(--forge-gradient-accent)",
+                color: "white",
+                boxShadow: "0 0 40px rgba(99,102,241,0.35)",
+              }}
+            >
+              Launch the Builder →
+            </button>
+          </Link>
+        </div>
+      </section>
+
+      {/* ─── Footer ─── */}
+      <footer
+        className="border-t px-6 py-12"
+        style={{ borderColor: "var(--forge-border-muted)" }}
+      >
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-2.5">
+            <div
+              className="w-7 h-7 rounded-md flex items-center justify-center text-white font-bold text-xs"
+              style={{ background: "var(--forge-gradient-accent)" }}
+            >
+              F
+            </div>
+            <span className="text-sm font-semibold" style={{ color: "var(--forge-fg)" }}>
+              ForgeAI
+            </span>
+            <span className="text-xs ml-2" style={{ color: "var(--forge-fg-subtle)" }}>
+              © {new Date().getFullYear()}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <Link
+              href="#"
+              className="transition-colors duration-200"
+              style={{ color: "var(--forge-fg-subtle)" }}
+            >
+              <Github size={18} />
+            </Link>
+            <Link
+              href="#"
+              className="transition-colors duration-200"
+              style={{ color: "var(--forge-fg-subtle)" }}
+            >
+              <Twitter size={18} />
+            </Link>
+          </div>
+        </div>
       </footer>
     </div>
   );
