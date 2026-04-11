@@ -24,7 +24,7 @@ enterprise:
       expiration-ms: ${ENTERPRISE_JWT_EXPIRATION_MS:86400000}
     bootstrap-users:
       - username: enterprise
-        password: "{noop}enterprise"
+        password: "{argon2}$argon2id$v=19$m=16384,t=2,p=1$c2FsdHNhbHRzYWx0$LqV1+o4Y6z6Z+Q3lR5zG+w"
         roles:
           - ENTERPRISE_ADMIN
           - ENTERPRISE_USER

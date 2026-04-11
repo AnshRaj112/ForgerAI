@@ -59,11 +59,11 @@ public class SecurityConfig {
               .build()
       );
     }
-    String adminHash = properties.getSecurity().getAdminPasswordBcrypt();
+    String adminHash = properties.getSecurity().getAdminPasswordArgon2();
     if (StringUtils.hasText(adminHash) && StringUtils.hasText(properties.getSecurity().getAdminUsername())) {
       users.add(
           User.withUsername(properties.getSecurity().getAdminUsername())
-              .password("{bcrypt}" + adminHash)
+              .password("{argon2}" + adminHash)
               .roles("ENTERPRISE_ADMIN")
               .build()
       );

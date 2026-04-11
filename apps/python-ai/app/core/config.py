@@ -7,9 +7,7 @@ class Settings(BaseSettings):
     port: int = Field(default=4002, alias="PORT")
     app_env: str = Field(default="development", alias="APP_ENV")
 
-    llm_provider: str = Field(default="openai", alias="LLM_PROVIDER")
-    openai_api_key: str | None = Field(default=None, alias="OPENAI_API_KEY")
-    openai_model: str = Field(default="gpt-4o-mini", alias="OPENAI_MODEL")
+    llm_provider: str = Field(default="groq", alias="LLM_PROVIDER")
     groq_api_key: str | None = Field(default=None, alias="GROQ_API_KEY")
     groq_model: str = Field(default="llama-3.1-8b-instant", alias="GROQ_MODEL")
     default_temperature: float = Field(default=0.2, alias="DEFAULT_TEMPERATURE")

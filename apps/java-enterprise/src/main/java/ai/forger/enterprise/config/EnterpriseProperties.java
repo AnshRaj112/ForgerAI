@@ -38,11 +38,11 @@ public class EnterpriseProperties {
     /** In-memory users for token issuance (typical for dev); prefer external IdP in production. */
     private List<BootstrapUser> bootstrapUsers = new ArrayList<>();
     /**
-     * Optional single admin for production when bootstrap-users is empty. Value must be a BCrypt
-     * hash (e.g. generated via {@code BCryptPasswordEncoder}) without the {@code {bcrypt}} prefix.
+     * Optional single admin for production when bootstrap-users is empty. Value must be an Argon2
+     * hash without the {@code {argon2}} prefix.
      */
     private String adminUsername = "";
-    private String adminPasswordBcrypt = "";
+    private String adminPasswordArgon2 = "";
   }
 
   @Getter
