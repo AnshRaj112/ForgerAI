@@ -1,0 +1,39 @@
+.card {
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.variantDefault {
+  /* standard card */
+}
+
+.variantInteractive {
+  cursor: pointer;
+}
+
+.variantInteractive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-border-subtle);
+}
+
+.variantGlow {
+  box-shadow: var(--shadow-md);
+}
+
+.variantGlow:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.variantGlass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+}
+@media (prefers-color-scheme: dark) {
+  html.dark .variantGlass {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}

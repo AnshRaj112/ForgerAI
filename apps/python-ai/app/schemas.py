@@ -6,7 +6,7 @@ class AgentExecutionRequest(BaseModel):
     prompt: str = Field(..., description="User prompt for the agent")
     context: dict[str, object] = Field(default_factory=dict)
     temperature: float | None = Field(default=None, ge=0.0, le=2.0)
-    provider: str | None = Field(default=None, description="openai or groq")
+    provider: str | None = Field(default=None, description="Groq inference provider")
 
 
 class AgentExecutionResponse(BaseModel):

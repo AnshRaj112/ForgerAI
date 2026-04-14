@@ -15,6 +15,7 @@ import ReactFlow, {
   Panel,
 } from "reactflow";
 import "reactflow/dist/style.css";
+import styles from "./agent-canvas.module.css";
 
 import { NodePalette } from "@/components/builder/node-palette";
 import { PropertiesPanel } from "@/components/builder/properties-panel";
@@ -40,7 +41,7 @@ const INITIAL_NODES: Node[] = [
     id: "llm-1",
     type: "llm",
     position: { x: 250, y: 200 },
-    data: { label: "GPT-4o", nodeType: "llm", language: "python", config: '{"model":"gpt-4o","temperature":0.7}' },
+    data: { label: "Llama 3.1 8B", nodeType: "llm", language: "python", config: '{"model":"llama-3.1-8b-instant","temperature":0.7}' },
   },
   {
     id: "output-1",
@@ -136,22 +137,16 @@ export function AgentCanvas() {
   );
 
   return (
-    <div className="flex h-full w-full">
+    <div className={styles.canvasContainer}>
       {/* Left: Node Palette */}
       {paletteOpen && (
-        <div
-          className="w-64 shrink-0 border-r overflow-y-auto"
-          style={{
-            background: "var(--forge-bg-subtle)",
-            borderColor: "var(--forge-border)",
-          }}
-        >
+        <div className={styles.leftPanel}>
           <NodePalette onAddNode={addNode} />
         </div>
       )}
 
       {/* Center: Canvas */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className={styles.centerCanvas}>
         <BuilderToolbar
           agentName={agentName}
           onAgentNameChange={setAgentName}
@@ -162,7 +157,7 @@ export function AgentCanvas() {
           nodes={nodes}
           edges={edges}
         />
-        <div className="flex-1 relative">
+        <div className={styles.reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -175,7 +170,7 @@ export function AgentCanvas() {
             fitView
             proOptions={{ hideAttribution: true }}
             style={{
-              background: "var(--forge-bg)",
+              background: "var(--color-bg)",
             }}
           >
             <Background
@@ -186,8 +181,8 @@ export function AgentCanvas() {
             />
             <Controls
               style={{
-                background: "var(--forge-bg-elevated)",
-                border: "1px solid var(--forge-border)",
+                background: "var(--color-surface)",
+                border: "1px solid var(--color-border)",
                 borderRadius: "12px",
               }}
             />
@@ -206,8 +201,8 @@ export function AgentCanvas() {
                 return langColors[node.data?.language as string] ?? "#6366f1";
               }}
               style={{
-                background: "var(--forge-bg-muted)",
-                border: "1px solid var(--forge-border)",
+                background: "var(--color-bg-secondary)",
+                border: "1px solid var(--color-border)",
                 borderRadius: "12px",
               }}
               maskColor="rgba(9,9,11,0.7)"
@@ -218,13 +213,7 @@ export function AgentCanvas() {
 
       {/* Right: Properties Panel */}
       {selectedNode && (
-        <div
-          className="w-80 shrink-0 border-l overflow-y-auto"
-          style={{
-            background: "var(--forge-bg-subtle)",
-            borderColor: "var(--forge-border)",
-          }}
-        >
+        <div className={styles.rightPanel}>
           <PropertiesPanel
             node={selectedNode}
             onUpdateData={(data) => updateNodeData(selectedNode.id, data)}

@@ -4,7 +4,8 @@ import { useState } from "react";
 import { ForgeCard } from "@/components/ui/forge-card";
 import { ForgeButton } from "@/components/ui/forge-button";
 import { LanguageBadge } from "@/components/ui/language-badge";
-import { Search, Star, Download, Filter, ArrowUpDown, Sparkles } from "lucide-react";
+import { Search, Star, Download, Sparkles } from "lucide-react";
+import styles from "./marketplace.module.css";
 
 const CATEGORIES = ["All", "AI & ML", "Automation", "Data", "Security", "Content", "Integration", "Enterprise"];
 
@@ -111,9 +112,9 @@ const MARKETPLACE_AGENTS = [
 ];
 
 const PRICING_STYLES = {
-  free: { label: "Free", bg: "rgba(34,197,94,0.12)", color: "var(--forge-success)" },
-  paid: { label: "Paid", bg: "rgba(249,115,22,0.12)", color: "var(--lang-rust)" },
-  subscription: { label: "Pro", bg: "rgba(139,92,246,0.12)", color: "var(--lang-php)" },
+  free: { label: "Free", bg: "rgba(34,197,94,0.12)", color: "#22c55e" },
+  paid: { label: "Paid", bg: "rgba(249,115,22,0.12)", color: "#f97316" },
+  subscription: { label: "Pro", bg: "rgba(139,92,246,0.12)", color: "#8b5cf6" },
 };
 
 export default function MarketplacePage() {
@@ -131,50 +132,37 @@ export default function MarketplacePage() {
   const featured = MARKETPLACE_AGENTS.filter((a) => a.featured);
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
+    <div className={styles.container}>
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold" style={{ color: "var(--forge-fg)" }}>
-          Agent Marketplace
-        </h1>
-        <p className="text-sm mt-1" style={{ color: "var(--forge-fg-muted)" }}>
-          Discover, install, and deploy pre-built polyglot AI agents
-        </p>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Agent Marketplace</h1>
+        <p className={styles.subtitle}>Discover, install, and deploy pre-built polyglot AI agents</p>
       </div>
 
       {/* Featured row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className={styles.featuredGrid}>
         {featured.slice(0, 3).map((agent) => {
           const pricing = PRICING_STYLES[agent.pricing];
           return (
-            <ForgeCard key={agent.id} variant="glow" className="relative overflow-hidden group cursor-pointer">
-              <div
-                className="absolute top-0 right-0 px-3 py-1 text-[10px] font-semibold rounded-bl-lg flex items-center gap-1"
-                style={{ background: "var(--forge-accent-muted)", color: "var(--forge-accent)" }}
-              >
+            <ForgeCard key={agent.id} variant="glow" style={{ position: "relative", overflow: "hidden", cursor: "pointer" }}>
+              <div className={styles.featuredBadge}>
                 <Sparkles size={10} />
                 Featured
               </div>
-              <h3 className="text-sm font-semibold mb-2 mt-2" style={{ color: "var(--forge-fg)" }}>
-                {agent.title}
-              </h3>
-              <p className="text-xs mb-3 line-clamp-2" style={{ color: "var(--forge-fg-muted)" }}>
-                {agent.summary}
-              </p>
-              <div className="flex flex-wrap gap-1 mb-3">
+              <h3 className={styles.cardTitle}>{agent.title}</h3>
+              <p className={styles.cardSummary}>{agent.summary}</p>
+              <div className={styles.languages}>
                 {agent.languages.map((lang) => (
                   <LanguageBadge key={lang} language={lang} size="sm" />
                 ))}
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <Star size={12} style={{ color: "var(--forge-warning)", fill: "var(--forge-warning)" }} />
-                  <span className="text-xs font-medium" style={{ color: "var(--forge-fg)" }}>{agent.rating}</span>
-                  <span className="text-[10px] ml-1" style={{ color: "var(--forge-fg-subtle)" }}>
-                    ({agent.installs.toLocaleString()})
-                  </span>
+              <div className={styles.cardFooter}>
+                <div className={styles.rating}>
+                  <Star size={12} color="#f59e0b" fill="#f59e0b" />
+                  <span className={styles.ratingValue}>{agent.rating}</span>
+                  <span className={styles.installs}>({agent.installs.toLocaleString()})</span>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: pricing.bg, color: pricing.color }}>
+                <span className={styles.pricingBadge} style={{ background: pricing.bg, color: pricing.color }}>
                   {pricing.label}
                 </span>
               </div>
@@ -184,33 +172,23 @@ export default function MarketplacePage() {
       </div>
 
       {/* Search + Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "var(--forge-fg-subtle)" }} />
+      <div className={styles.searchFilters}>
+        <div className={styles.searchContainer}>
+          <Search size={14} className={styles.searchIcon} />
           <input
             type="text"
             placeholder="Search agents..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-10 pl-9 pr-4 rounded-xl text-sm outline-none"
-            style={{
-              background: "var(--forge-bg-elevated)",
-              border: "1px solid var(--forge-border)",
-              color: "var(--forge-fg)",
-            }}
+            className={styles.searchInput}
           />
         </div>
-        <div className="flex items-center gap-2 overflow-x-auto pb-1">
+        <div className={styles.categoriesContainer}>
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setCategory(cat)}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer"
-              style={{
-                background: category === cat ? "var(--forge-accent-muted)" : "transparent",
-                color: category === cat ? "var(--forge-accent)" : "var(--forge-fg-muted)",
-                border: `1px solid ${category === cat ? "rgba(99,102,241,0.3)" : "var(--forge-border)"}`,
-              }}
+              className={`${styles.categoryButton} ${category === cat ? styles.categoryButtonActive : ""}`}
             >
               {cat}
             </button>
@@ -219,32 +197,28 @@ export default function MarketplacePage() {
       </div>
 
       {/* Agent Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className={styles.mainGrid}>
         {filtered.map((agent) => {
           const pricing = PRICING_STYLES[agent.pricing];
           return (
-            <ForgeCard key={agent.id} variant="interactive" className="flex flex-col">
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-sm font-semibold" style={{ color: "var(--forge-fg)" }}>
-                  {agent.title}
-                </h3>
-                <span className="text-[10px] px-2 py-0.5 rounded-full font-medium shrink-0 ml-2" style={{ background: pricing.bg, color: pricing.color }}>
+            <ForgeCard key={agent.id} variant="interactive" style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "8px" }}>
+                <h3 className={styles.cardTitle} style={{ margin: 0 }}>{agent.title}</h3>
+                <span className={styles.pricingBadge} style={{ background: pricing.bg, color: pricing.color, flexShrink: 0, marginLeft: "8px" }}>
                   {agent.pricing === "paid" ? `$${(agent as { price?: number }).price}` : agent.pricing === "subscription" ? `$${(agent as { price?: number }).price}/mo` : pricing.label}
                 </span>
               </div>
-              <p className="text-xs mb-3 line-clamp-2 flex-1" style={{ color: "var(--forge-fg-muted)" }}>
-                {agent.summary}
-              </p>
-              <div className="flex flex-wrap gap-1 mb-3">
+              <p className={styles.cardSummary}>{agent.summary}</p>
+              <div className={styles.languages}>
                 {agent.languages.map((lang) => (
                   <LanguageBadge key={lang} language={lang} size="sm" />
                 ))}
               </div>
-              <div className="flex items-center justify-between mt-auto pt-3" style={{ borderTop: "1px solid var(--forge-border-muted)" }}>
-                <div className="flex items-center gap-2">
-                  <Star size={11} style={{ color: "var(--forge-warning)", fill: "var(--forge-warning)" }} />
-                  <span className="text-[11px] font-medium" style={{ color: "var(--forge-fg)" }}>{agent.rating}</span>
-                  <span className="text-[10px] flex items-center gap-0.5" style={{ color: "var(--forge-fg-subtle)" }}>
+              <div className={styles.cardFooterLine}>
+                <div className={styles.rating}>
+                  <Star size={11} color="#f59e0b" fill="#f59e0b" />
+                  <span className={styles.ratingValue} style={{ fontSize: "11px" }}>{agent.rating}</span>
+                  <span className={styles.installsIcon}>
                     <Download size={10} /> {agent.installs.toLocaleString()}
                   </span>
                 </div>

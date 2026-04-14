@@ -1,10 +1,11 @@
 "use client";
 
 import { AgentCanvas } from "@/components/builder/agent-canvas";
+import styles from "./builder.module.css";
 
 export default function BuilderPage() {
   return (
-    <div className="h-[calc(100vh-3.5rem)]">
+    <div className={styles.container}>
       <AgentCanvas />
     </div>
   );

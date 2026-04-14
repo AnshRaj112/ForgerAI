@@ -2,47 +2,54 @@
 
 import { memo } from "react";
 import { Handle, Position, type NodeProps } from "reactflow";
-import { LanguageBadge } from "@/components/ui/language-badge";
+import { LanguageBadge } from "../../ui/language-badge";
 import { Brain } from "lucide-react";
+import styles from "./custom-node.module.css";
 
 function LlmNodeComponent({ data, selected }: NodeProps) {
   const config = (() => {
     try { return JSON.parse(data.config || "{}"); } catch { return {}; }
   })();
 
+  const langColor = "#3b82f6"; // Python/Blue
+
   return (
     <div
-      className="rounded-xl px-4 py-3 min-w-[180px] transition-all duration-200"
+      className={`${styles.nodeWrapper} ${selected ? styles.nodeWrapperSelected : ""}`}
       style={{
-        background: "var(--forge-bg-elevated)",
-        border: `1.5px solid ${selected ? "var(--lang-python)" : "var(--forge-border)"}`,
-        boxShadow: selected
-          ? "0 0 20px rgba(59,130,246,0.2)"
-          : "0 2px 8px rgba(0,0,0,0.3)",
+        borderColor: selected ? langColor : "var(--color-border)",
       }}
     >
-      <Handle type="target" position={Position.Top} style={{ background: "var(--lang-python)", border: "2px solid var(--forge-bg)", width: 10, height: 10 }} />
+      <Handle 
+        type="target" 
+        position={Position.Top} 
+        style={{ background: langColor, border: "2px solid var(--color-bg)", width: 10, height: 10 }} 
+      />
 
-      <div className="flex items-center gap-2 mb-2">
+      <div className={styles.header}>
         <div
-          className="w-7 h-7 rounded-lg flex items-center justify-center"
-          style={{ background: "rgba(59,130,246,0.12)", color: "var(--lang-python)" }}
+          className={styles.iconContainer}
+          style={{ background: "rgba(59,130,246,0.12)", color: langColor }}
         >
           <Brain size={14} />
         </div>
-        <div className="min-w-0">
-          <p className="text-xs font-semibold truncate" style={{ color: "var(--forge-fg)" }}>{data.label}</p>
+        <div className={styles.titleContainer}>
+          <p className={styles.nodeTitle}>{data.label}</p>
         </div>
         <LanguageBadge language="python" size="sm" />
       </div>
 
       {config.model && (
-        <p className="text-[10px] px-2 py-0.5 rounded" style={{ background: "var(--forge-bg-muted)", color: "var(--forge-fg-muted)" }}>
+        <p className={styles.configText}>
           {config.model}
         </p>
       )}
 
-      <Handle type="source" position={Position.Bottom} style={{ background: "var(--lang-python)", border: "2px solid var(--forge-bg)", width: 10, height: 10 }} />
+      <Handle 
+        type="source" 
+        position={Position.Bottom} 
+        style={{ background: langColor, border: "2px solid var(--color-bg)", width: 10, height: 10 }} 
+      />
     </div>
   );
 }

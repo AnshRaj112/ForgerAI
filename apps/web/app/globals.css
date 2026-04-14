@@ -1,88 +1,73 @@
-@import "tailwindcss";
-
 /* ═══════════════════════════════════════════════════════════════
-   ForgeAI Design System — Dark-first, Glassmorphic, Premium
+   ForgeAI Professional Design System — Ultra-clean, Spacious, Minimalist
    ═══════════════════════════════════════════════════════════════ */
 
-/* ---------- Brand palette ---------- */
 :root {
-  /* Core neutrals */
-  --forge-bg: #09090b;
-  --forge-bg-subtle: #0f0f13;
-  --forge-bg-muted: #18181b;
-  --forge-bg-elevated: #1c1c22;
+  /* ─── Color Palette (Light Mode Default) ─── */
+  --color-bg: #ffffff;
+  --color-bg-secondary: #fceceb; /* Extremely subtle warm gray/pinkish for a premium feel or just pure grey #f9fafb */
+  --color-bg-subtle: #f9fafb;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
+  --color-border-subtle: #f3f4f6;
+  
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #9ca3af;
+  
+  --color-accent: #0f172a; /* Sophisticated deep slate/black instead of neon indigo */
+  --color-accent-hover: #1e293b;
+  --color-accent-text: #ffffff;
 
-  --forge-fg: #fafafa;
-  --forge-fg-muted: #a1a1aa;
-  --forge-fg-subtle: #71717a;
+  /* ─── Spacing Scale (8px base) ─── */
+  --spacing-1: 0.25rem;  /* 4px */
+  --spacing-2: 0.5rem;   /* 8px */
+  --spacing-3: 0.75rem;  /* 12px */
+  --spacing-4: 1rem;     /* 16px */
+  --spacing-6: 1.5rem;   /* 24px */
+  --spacing-8: 2rem;     /* 32px */
+  --spacing-12: 3rem;    /* 48px */
+  --spacing-16: 4rem;    /* 64px */
+  --spacing-24: 6rem;    /* 96px */
+  --spacing-32: 8rem;    /* 128px */
 
-  --forge-border: #27272a;
-  --forge-border-muted: #1e1e22;
+  /* ─── Typography ─── */
+  --font-family-base: var(--font-geist-sans), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-family-mono: var(--font-geist-mono), 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  --font-size-4xl: 2.5rem;
+  --font-size-5xl: 3.5rem;
+  --font-size-6xl: 4.5rem;
 
-  /* Accent — electric indigo → violet */
-  --forge-accent: #6366f1;
-  --forge-accent-hover: #818cf8;
-  --forge-accent-muted: rgba(99, 102, 241, 0.15);
-  --forge-accent-glow: rgba(99, 102, 241, 0.35);
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
 
-  /* Semantic */
-  --forge-success: #22c55e;
-  --forge-warning: #f59e0b;
-  --forge-error: #ef4444;
-  --forge-info: #3b82f6;
+  /* ─── Effects ─── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
 
-  /* Language colors (polyglot badges) */
-  --lang-python: #3b82f6;
-  --lang-rust: #f97316;
-  --lang-go: #06b6d4;
-  --lang-java: #ef4444;
-  --lang-ruby: #ec4899;
-  --lang-php: #8b5cf6;
-  --lang-node: #22c55e;
-  --lang-typescript: #3b82f6;
-
-  /* Glass effects */
-  --forge-glass-bg: rgba(255, 255, 255, 0.03);
-  --forge-glass-border: rgba(255, 255, 255, 0.06);
-  --forge-glass-hover: rgba(255, 255, 255, 0.06);
-  --forge-glass-blur: 16px;
-
-  /* Gradients */
-  --forge-gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
-  --forge-gradient-hero: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
-  --forge-gradient-surface: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, transparent 100%);
-
-  /* Shadows */
-  --forge-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --forge-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --forge-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --forge-shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
-  --forge-shadow-glow-lg: 0 0 60px rgba(99, 102, 241, 0.2);
-
-  /* Radii */
-  --forge-radius-sm: 6px;
-  --forge-radius-md: 10px;
-  --forge-radius-lg: 16px;
-  --forge-radius-xl: 24px;
-  --forge-radius-full: 9999px;
-
-  /* Transitions */
-  --forge-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  --forge-transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* Compatibility aliases */
-  --background: var(--forge-bg);
-  --foreground: var(--forge-fg);
-  --card: var(--forge-bg-elevated);
-  --card-foreground: var(--forge-fg);
-  --muted: var(--forge-bg-muted);
-  --muted-foreground: var(--forge-fg-muted);
-  --border: var(--forge-border);
-  --primary: var(--forge-accent);
-  --primary-foreground: #fff;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+  
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ---------- Global resets ---------- */
+/* ─── Global Resets & Base ─── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -90,175 +75,106 @@
 }
 
 html {
+  font-size: 16px;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--forge-bg);
-  color: var(--forge-fg);
-  font-family: var(--font-geist-sans), 'Inter', system-ui, -apple-system, sans-serif;
-  line-height: 1.6;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-::selection {
-  background: var(--forge-accent);
-  color: white;
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--forge-border);
-  border-radius: var(--forge-radius-full);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--forge-fg-subtle);
-}
-
-/* Focus ring */
-:focus-visible {
-  outline: 2px solid var(--forge-accent);
-  outline-offset: 2px;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
-/* ---------- Keyframe Animations ---------- */
-@keyframes forge-pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
 }
 
-@keyframes forge-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+/* ─── Core Layout Classes ─── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: var(--spacing-6);
+  padding-right: var(--spacing-6);
 }
 
-@keyframes forge-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+.section {
+  padding-top: var(--spacing-24);
+  padding-bottom: var(--spacing-24);
 }
 
-@keyframes forge-spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-16);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-@keyframes forge-fade-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes forge-fade-in-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes forge-scale-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes forge-slide-in-right {
-  from { opacity: 0; transform: translateX(16px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes forge-gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes forge-border-glow {
-  0%, 100% { border-color: rgba(99, 102, 241, 0.15); }
-  50% { border-color: rgba(99, 102, 241, 0.4); }
-}
-
-@keyframes forge-particle-drift {
-  0% { transform: translate(0, 0) scale(1); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translate(var(--drift-x, 100px), var(--drift-y, -200px)) scale(0); opacity: 0; }
-}
-
-/* ---------- Utility classes ---------- */
-.forge-glass {
-  background: var(--forge-glass-bg);
-  backdrop-filter: blur(var(--forge-glass-blur));
-  -webkit-backdrop-filter: blur(var(--forge-glass-blur));
-  border: 1px solid var(--forge-glass-border);
-}
-
-.forge-glass:hover {
-  background: var(--forge-glass-hover);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.forge-card {
-  background: var(--forge-bg-elevated);
-  border: 1px solid var(--forge-border);
-  border-radius: var(--forge-radius-lg);
-  transition: all var(--forge-transition);
-}
-
-.forge-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: var(--forge-shadow-glow);
-  transform: translateY(-2px);
-}
-
-.forge-gradient-text {
-  background: var(--forge-gradient-hero);
-  background-size: 200% 200%;
+.text-gradient {
+  background: linear-gradient(135deg, #111827 0%, #4b5563 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: forge-gradient-shift 6s ease-in-out infinite;
 }
 
-.forge-animate-in {
-  animation: forge-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
+/* Dark Mode Overrides */
+@media (prefers-color-scheme: dark) {
+  .dark {
+    /* To keep it unified across both, we will actually implement a strict Light minimal theme as the primary.
+       If dark mode is forced, providing a sleek, non-neon dark mode. */
+    --color-bg: #000000;
+    --color-bg-secondary: #0a0a0a;
+    --color-bg-subtle: #111111;
+    --color-surface: #0a0a0a;
+    --color-border: #222222;
+    --color-border-subtle: #1a1a1a;
+    
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #a1a1aa;
+    --color-text-tertiary: #71717a;
+    
+    --color-accent: #ffffff;
+    --color-accent-hover: #e4e4e7;
+    --color-accent-text: #000000;
+  }
+  .dark .text-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
-.forge-animate-in-delayed {
-  animation: forge-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-  opacity: 0;
+/* ─── ReactFlow Reset ─── */
+.react-flow__node {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
 }
 
-.forge-animate-in-delayed-2 {
-  animation: forge-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-  opacity: 0;
+.react-flow__edge-path {
+  stroke: var(--color-border);
+  stroke-width: 2;
 }
 
-.forge-animate-in-delayed-3 {
-  animation: forge-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
-  opacity: 0;
-}
-
-/* ---------- Grid background pattern ---------- */
-.forge-grid-bg {
-  background-image:
-    linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
-  background-size: 64px 64px;
-}
-
-.forge-dot-bg {
-  background-image: radial-gradient(circle, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
-  background-size: 32px 32px;
+.react-flow__handle {
+  width: 8px !important;
+  height: 8px !important;
+  background: var(--color-accent) !important;
+  border: 2px solid var(--color-bg) !important;
 }

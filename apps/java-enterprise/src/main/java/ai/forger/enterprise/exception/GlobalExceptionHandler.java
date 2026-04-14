@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -62,7 +63,9 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(BusinessException.class)
   public ResponseEntity<ApiError> handleBusiness(BusinessException ex, HttpServletRequest request) {
     String reason =
-        HttpStatus.resolve(ex.getHttpStatus()).map(HttpStatus::getReasonPhrase).orElse("Error");
+        Optional.ofNullable(HttpStatus.resolve(ex.getHttpStatus()))
+            .map(HttpStatus::getReasonPhrase)
+            .orElse("Error");
     ApiError body =
         new ApiError(
             Instant.now(),

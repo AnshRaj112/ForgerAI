@@ -1,0 +1,159 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+  transition: width var(--transition-normal);
+  height: 100vh;
+}
+
+.expanded {
+  width: 256px;
+}
+
+.collapsed {
+  width: 64px;
+}
+
+.brandArea {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  height: 56px;
+  padding: 0 var(--spacing-4);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.brandText {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.brandTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.brandSubtitle {
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-tight);
+}
+
+.nav {
+  flex: 1;
+  padding: var(--spacing-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  overflow-y: auto;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+  position: relative;
+  white-space: nowrap;
+  border-left: 3px solid transparent;
+}
+
+.navItem:hover {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.navItemActive {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-left-color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.navItemCollapsed {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+  border-left-width: 0; /* Removing border left to keep icon centered */
+}
+
+.navItemCollapsed.navItemActive {
+  background: var(--color-border);
+}
+
+.navLabel {
+  font-weight: 500;
+}
+
+/* Tooltip for collapsed mode */
+.tooltip {
+  position: absolute;
+  left: 100%;
+  margin-left: var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+  z-index: 50;
+  white-space: nowrap;
+}
+
+.navItem:hover .tooltip {
+  opacity: 1;
+}
+
+.footer {
+  padding: var(--spacing-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.collapseButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.collapseButton:hover {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}

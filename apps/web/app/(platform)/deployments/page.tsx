@@ -10,6 +10,7 @@ import {
   RotateCcw,
   Eye,
 } from "lucide-react";
+import styles from "./deployments.module.css";
 
 const DEPLOYMENTS = [
   {
@@ -70,35 +71,31 @@ const DEPLOYMENTS = [
 ];
 
 const ENV_STYLES: Record<string, { label: string; bg: string; color: string }> = {
-  prod: { label: "Production", bg: "rgba(34,197,94,0.12)", color: "var(--forge-success)" },
-  staging: { label: "Staging", bg: "rgba(249,115,22,0.12)", color: "var(--lang-rust)" },
-  dev: { label: "Development", bg: "rgba(99,102,241,0.12)", color: "var(--forge-accent)" },
+  prod: { label: "Production", bg: "rgba(34,197,94,0.12)", color: "#22c55e" },
+  staging: { label: "Staging", bg: "rgba(249,115,22,0.12)", color: "#f97316" },
+  dev: { label: "Development", bg: "rgba(99,102,241,0.12)", color: "var(--color-accent)" },
 };
 
 const STATUS_CONFIG = {
-  running: { icon: CheckCircle2, color: "var(--forge-success)", label: "Running" },
-  stopped: { icon: Clock, color: "var(--forge-fg-subtle)", label: "Stopped" },
-  failed: { icon: XCircle, color: "var(--forge-error)", label: "Failed" },
+  running: { icon: CheckCircle2, color: "#22c55e", label: "Running" },
+  stopped: { icon: Clock, color: "var(--color-text-tertiary)", label: "Stopped" },
+  failed: { icon: XCircle, color: "#ef4444", label: "Failed" },
 };
 
 export default function DeploymentsPage() {
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
+    <div className={styles.container}>
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className={styles.header}>
         <div>
-          <h1 className="text-2xl font-bold" style={{ color: "var(--forge-fg)" }}>
-            Deployments
-          </h1>
-          <p className="text-sm mt-1" style={{ color: "var(--forge-fg-muted)" }}>
-            Monitor and manage your deployed agents across environments
-          </p>
+          <h1 className={styles.title}>Deployments</h1>
+          <p className={styles.subtitle}>Monitor and manage your deployed agents across environments</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className={styles.envList}>
           {Object.entries(ENV_STYLES).map(([key, env]) => (
             <span
               key={key}
-              className="px-3 py-1 rounded-full text-[10px] font-medium"
+              className={styles.envBadge}
               style={{ background: env.bg, color: env.color }}
             >
               {env.label}
@@ -108,36 +105,34 @@ export default function DeploymentsPage() {
       </div>
 
       {/* Deployments List */}
-      <div className="space-y-3">
+      <div className={styles.list}>
         {DEPLOYMENTS.map((dep) => {
           const env = ENV_STYLES[dep.environment]!;
           const status = STATUS_CONFIG[dep.status];
           const StatusIcon = status.icon;
           return (
-            <ForgeCard key={dep.id} variant="interactive" className="!p-4">
-              <div className="flex items-center gap-4">
+            <ForgeCard key={dep.id} variant="interactive" className={styles.itemWrapper}>
+              <div className={styles.itemContent}>
                 {/* Status indicator */}
-                <div className="shrink-0">
+                <div className={styles.statusIconWrapper}>
                   <StatusIcon size={20} style={{ color: status.color }} />
                 </div>
 
                 {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-sm font-semibold truncate" style={{ color: "var(--forge-fg)" }}>
-                      {dep.agentName}
-                    </h3>
+                <div className={styles.infoSection}>
+                  <div className={styles.infoHeader}>
+                    <h3 className={styles.agentName}>{dep.agentName}</h3>
                     <span
-                      className="px-2 py-0.5 rounded-full text-[10px] font-medium shrink-0"
-                      style={{ background: env.bg, color: env.color }}
+                      className={styles.envBadge}
+                      style={{ background: env.bg, color: env.color, flexShrink: 0 }}
                     >
                       {env.label}
                     </span>
-                    <span className="text-[10px] font-mono" style={{ color: "var(--forge-fg-subtle)" }}>
+                    <span className={styles.versionText}>
                       v{dep.version}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className={styles.languagesWrapper}>
                     {dep.languages.map((lang) => (
                       <LanguageBadge key={lang} language={lang} size="sm" />
                     ))}
@@ -145,23 +140,23 @@ export default function DeploymentsPage() {
                 </div>
 
                 {/* Metrics */}
-                <div className="hidden md:flex items-center gap-6 shrink-0">
-                  <div className="text-center">
-                    <p className="text-[10px] uppercase tracking-wider" style={{ color: "var(--forge-fg-subtle)" }}>Uptime</p>
-                    <p className="text-xs font-semibold" style={{ color: "var(--forge-fg)" }}>{dep.uptime}</p>
+                <div className={styles.metricsSection}>
+                  <div className={styles.metricBlock}>
+                    <p className={styles.metricLabel}>Uptime</p>
+                    <p className={styles.metricValue}>{dep.uptime}</p>
                   </div>
-                  <div className="text-center">
-                    <p className="text-[10px] uppercase tracking-wider" style={{ color: "var(--forge-fg-subtle)" }}>Requests</p>
-                    <p className="text-xs font-semibold" style={{ color: "var(--forge-fg)" }}>{dep.requests}</p>
+                  <div className={styles.metricBlock}>
+                    <p className={styles.metricLabel}>Requests</p>
+                    <p className={styles.metricValue}>{dep.requests}</p>
                   </div>
-                  <div className="text-center">
-                    <p className="text-[10px] uppercase tracking-wider" style={{ color: "var(--forge-fg-subtle)" }}>Status</p>
-                    <p className="text-xs font-semibold" style={{ color: status.color }}>{status.label}</p>
+                  <div className={styles.metricBlock}>
+                    <p className={styles.metricLabel}>Status</p>
+                    <p className={styles.metricValue} style={{ color: status.color }}>{status.label}</p>
                   </div>
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-2 shrink-0">
+                <div className={styles.actionsSection}>
                   <ForgeButton variant="ghost" size="sm" icon={<Eye size={12} />}>
                     Logs
                   </ForgeButton>

@@ -1,0 +1,33 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.sizeSm {
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: 10px;
+}
+
+.sizeMd {
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: var(--font-size-xs);
+}
+
+.dot {
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.dotSm {
+  width: 6px;
+  height: 6px;
+}
+
+.dotMd {
+  width: 8px;
+  height: 8px;
+}

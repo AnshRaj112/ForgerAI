@@ -3,6 +3,7 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import styles from "./theme-toggle.module.css";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -16,8 +17,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="inline-flex h-9 items-center gap-2 rounded-md border px-3 text-sm"
-      style={{ borderColor: "var(--border)", background: "var(--card)" }}
+      className={styles.toggle}
       aria-label="Toggle theme"
     >
       {isDark ? <Sun size={16} /> : <Moon size={16} />}

@@ -31,8 +31,7 @@ cp .env.example .env
 #    - PHP APP_KEY: Run inside apps/php-cms → php artisan key:generate
 #    - Or generate a random 32-char base64: openssl rand -base64 32
 
-# 3. Add your LLM API key (at least one is required for AI features)
-#    - OpenAI: https://platform.openai.com/api-keys
+# 3. Add your Groq API key (required for AI features)
 #    - Groq:   https://console.groq.com/keys
 
 # 4. Start infrastructure
@@ -103,7 +102,6 @@ npx turbo dev --filter=web
 
 ### How to get an LLM API Key
 
-**Groq (faster inference):**
 1. Go to [console.groq.com](https://console.groq.com)
 2. Sign up
 3. Navigate to **API Keys**

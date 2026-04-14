@@ -5,6 +5,7 @@ import { LanguageBadge } from "@/components/ui/language-badge";
 import { ForgeButton } from "@/components/ui/forge-button";
 import { Trash2, Settings, Code } from "lucide-react";
 import { useState } from "react";
+import styles from "./properties-panel.module.css";
 
 interface PropertiesPanelProps {
   node: Node;
@@ -28,14 +29,12 @@ export function PropertiesPanel({ node, onUpdateData, onDelete }: PropertiesPane
   };
 
   return (
-    <div className="p-4">
+    <div className={styles.container}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
-          <Settings size={14} style={{ color: "var(--forge-fg-muted)" }} />
-          <h3 className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--forge-fg-subtle)" }}>
-            Properties
-          </h3>
+      <div className={styles.header}>
+        <div className={styles.headerLeft}>
+          <Settings size={14} className={styles.settingsIcon} />
+          <h3 className={styles.title}>Properties</h3>
         </div>
         <ForgeButton variant="danger" size="sm" onClick={onDelete} icon={<Trash2 size={12} />}>
           Delete
@@ -43,56 +42,35 @@ export function PropertiesPanel({ node, onUpdateData, onDelete }: PropertiesPane
       </div>
 
       {/* Node meta */}
-      <div className="space-y-4 mb-6">
-        <div>
-          <label className="text-[10px] font-medium uppercase tracking-wider mb-1.5 block" style={{ color: "var(--forge-fg-subtle)" }}>
-            Label
-          </label>
+      <div className={styles.section}>
+        <div className={styles.field}>
+          <label className={styles.label}>Label</label>
           <input
             type="text"
             value={node.data?.label || ""}
             onChange={(e) => onUpdateData({ label: e.target.value })}
-            className="w-full h-8 px-3 rounded-lg text-xs outline-none transition-colors"
-            style={{
-              background: "var(--forge-bg-muted)",
-              border: "1px solid var(--forge-border)",
-              color: "var(--forge-fg)",
-            }}
+            className={styles.input}
           />
         </div>
 
-        <div>
-          <label className="text-[10px] font-medium uppercase tracking-wider mb-1.5 block" style={{ color: "var(--forge-fg-subtle)" }}>
-            Node Type
-          </label>
-          <div
-            className="h-8 px-3 rounded-lg text-xs flex items-center"
-            style={{ background: "var(--forge-bg-muted)", border: "1px solid var(--forge-border)", color: "var(--forge-fg-muted)" }}
-          >
+        <div className={styles.field}>
+          <label className={styles.label}>Node Type</label>
+          <div className={styles.valueBox}>
             {node.data?.nodeType || node.type}
           </div>
         </div>
 
-        <div>
-          <label className="text-[10px] font-medium uppercase tracking-wider mb-1.5 block" style={{ color: "var(--forge-fg-subtle)" }}>
-            Runtime Language
-          </label>
-          <div className="flex items-center gap-2">
+        <div className={styles.field}>
+          <label className={styles.label}>Runtime Language</label>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <LanguageBadge language={node.data?.language || "typescript"} size="md" />
-            <span className="text-[10px]" style={{ color: "var(--forge-fg-subtle)" }}>
-              Auto-assigned
-            </span>
+            <span className={styles.autoAssignText}>Auto-assigned</span>
           </div>
         </div>
 
-        <div>
-          <label className="text-[10px] font-medium uppercase tracking-wider mb-1.5 block" style={{ color: "var(--forge-fg-subtle)" }}>
-            Node ID
-          </label>
-          <div
-            className="h-8 px-3 rounded-lg text-[10px] flex items-center font-mono"
-            style={{ background: "var(--forge-bg-muted)", border: "1px solid var(--forge-border)", color: "var(--forge-fg-subtle)" }}
-          >
+        <div className={styles.field}>
+          <label className={styles.label}>Node ID</label>
+          <div className={`${styles.valueBox} ${styles.monoBox}`}>
             {node.id}
           </div>
         </div>
@@ -100,27 +78,19 @@ export function PropertiesPanel({ node, onUpdateData, onDelete }: PropertiesPane
 
       {/* JSON Config Editor */}
       <div>
-        <div className="flex items-center gap-2 mb-1.5">
-          <Code size={12} style={{ color: "var(--forge-fg-subtle)" }} />
-          <label className="text-[10px] font-medium uppercase tracking-wider" style={{ color: "var(--forge-fg-subtle)" }}>
-            Configuration (JSON)
-          </label>
+        <div className={styles.editorHeader}>
+          <Code size={12} className={styles.editorIcon} />
+          <label className={styles.label}>Configuration (JSON)</label>
         </div>
         <textarea
           value={configText}
           onChange={(e) => handleConfigChange(e.target.value)}
           rows={8}
           spellCheck={false}
-          className="w-full px-3 py-2 rounded-lg text-xs font-mono outline-none resize-y transition-colors"
-          style={{
-            background: "var(--forge-bg-muted)",
-            border: `1px solid ${configError ? "var(--forge-error)" : "var(--forge-border)"}`,
-            color: "var(--forge-fg)",
-            minHeight: "100px",
-          }}
+          className={`${styles.textarea} ${configError ? styles.textareaError : ""}`}
         />
         {configError && (
-          <p className="text-[10px] mt-1" style={{ color: "var(--forge-error)" }}>
+          <p className={styles.errorText}>
             {configError}
           </p>
         )}

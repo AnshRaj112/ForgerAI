@@ -1,0 +1,148 @@
+.architectureSection {
+  background-color: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-24);
+}
+
+.kicker {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--spacing-4);
+  display: block;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--spacing-6);
+  color: var(--color-text-primary);
+}
+
+.subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: var(--line-height-relaxed);
+}
+
+.diagramContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 640px) {
+  .diagramContainer {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+}
+
+.serviceNode {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transition: all var(--transition-normal);
+}
+
+.nodeCard {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3) var(--spacing-4);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-align: center;
+  min-width: 120px;
+  box-shadow: var(--shadow-sm);
+}
+
+.nodeCardActive {
+  background: var(--color-surface);
+  border-color: var(--color-text-primary);
+  box-shadow: var(--shadow-md);
+  transform: scale(1.05);
+}
+
+.nodeName {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: var(--spacing-2);
+  white-space: nowrap;
+  color: var(--color-text-primary);
+}
+
+.nodePort {
+  font-size: 11px;
+  margin-top: var(--spacing-2);
+  color: var(--color-text-tertiary);
+  font-family: var(--font-family-mono);
+}
+
+.detailPanel {
+  margin: var(--spacing-8) auto 0;
+  max-width: 600px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  text-align: center;
+  transition: all var(--transition-normal);
+  min-height: 100px;
+  box-shadow: var(--shadow-sm);
+}
+
+.detailPanelHidden {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+.detailName {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  margin-bottom: var(--spacing-2);
+  color: var(--color-text-primary);
+}
+
+.detailDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+.infraContainer {
+  margin-top: var(--spacing-16);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+}
+
+.infraBadge {
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
