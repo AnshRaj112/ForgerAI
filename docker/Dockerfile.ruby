@@ -1,4 +1,3 @@
-# Build from monorepo root. Prefer apps/ruby-workflow/Dockerfile in compose.
 FROM ruby:3.3-slim AS builder
 
 RUN apt-get update -qq && \

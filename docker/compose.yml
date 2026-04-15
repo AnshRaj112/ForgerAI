@@ -187,7 +187,7 @@ services:
   java-enterprise:
     build:
       context: ..
-      dockerfile: apps/java-enterprise/Dockerfile
+      dockerfile: docker/Dockerfile.java
     container_name: forgeai-java-enterprise
     restart: unless-stopped
     ports:
@@ -211,7 +211,7 @@ services:
   ruby-workflow:
     build:
       context: ..
-      dockerfile: apps/ruby-workflow/Dockerfile
+      dockerfile: docker/Dockerfile.ruby
     container_name: forgeai-ruby-workflow
     restart: unless-stopped
     ports:
@@ -235,7 +235,7 @@ services:
   php-cms:
     build:
       context: ..
-      dockerfile: apps/php-cms/Dockerfile
+      dockerfile: docker/Dockerfile.php
     container_name: forgeai-php-cms
     restart: unless-stopped
     ports:
@@ -261,7 +261,7 @@ services:
   node-realtime:
     build:
       context: ..
-      dockerfile: apps/node-realtime/Dockerfile
+      dockerfile: docker/Dockerfile.node
     container_name: forgeai-node-realtime
     restart: unless-stopped
     ports:

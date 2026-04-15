@@ -114,7 +114,10 @@ docker compose -f docker/compose.yml up mongodb redis nats -d
 npx turbo dev --filter=web
 
 # 5. (Optional) Start all services
-docker compose -f docker/compose.yml up --build
+docker compose -f docker/compose.yml up build
+
+docker compose -f docker/compose.yml up -d
+
 ```
 
 ### Development

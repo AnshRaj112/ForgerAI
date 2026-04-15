@@ -1,4 +1,3 @@
-# Deprecated: use apps/java-enterprise/Dockerfile from repo root context.
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
 WORKDIR /src

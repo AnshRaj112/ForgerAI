@@ -1,31 +1,27 @@
-# Build from monorepo root. Prefer apps/php-cms/Dockerfile in compose.
 FROM composer:2 AS vendor
-ENV COMPOSER_PROCESS_TIMEOUT=0
 WORKDIR /app
-COPY apps/php-cms/composer.json apps/php-cms/composer.lock* ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts \
-    --ignore-platform-req=ext-mongodb
+COPY apps/php-cms/composer.json apps/php-cms/composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-req=ext-mongodb
 
-FROM php:8.3-cli-bookworm
-
+FROM php:8.4-cli-bookworm
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    unzip \
-    libssl-dev \
-    pkg-config \
+    libssl-dev pkg-config zlib1g-dev \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
-
-COPY --from=vendor /app/vendor ./vendor
 COPY apps/php-cms/ .
+COPY --from=vendor /app/vendor ./vendor
 
-RUN chmod +x docker/entrypoint.sh \
-    && mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache
+# Generate optimized autoloader now that source is present
+COPY --from=vendor /usr/bin/composer /usr/bin/composer
+RUN composer dump-autoload --optimize --no-dev --ignore-platform-req=ext-mongodb --ignore-platform-req=php
 
-ENV PORT=4006
+RUN php artisan package:discover --no-ansi
+
+ENV APP_ENV=production
+ENV APP_DEBUG=false
 EXPOSE 4006
 
-ENTRYPOINT ["./docker/entrypoint.sh"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=4006"]
