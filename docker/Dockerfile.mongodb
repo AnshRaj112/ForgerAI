@@ -1,0 +1,9 @@
+FROM mongo:7
+
+# Create a keyfile for the replica set
+RUN openssl rand -base64 756 > /data/replica.key \
+    && chown mongodb:mongodb /data/replica.key \
+    && chmod 400 /data/replica.key
+
+# Ensure the database directory is owned by mongodb
+RUN chown -R mongodb:mongodb /data/db

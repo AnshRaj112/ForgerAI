@@ -1,7 +1,7 @@
 FROM rust:1.89-alpine AS builder
 
 WORKDIR /src
-RUN apk add --no-cache musl-dev
+RUN apk add --no-cache musl-dev gcc
 
 # Leverage caching for dependencies
 COPY apps/rust-executor/Cargo.toml apps/rust-executor/Cargo.lock ./
@@ -13,11 +13,14 @@ RUN cargo build --release
 
 # Final runtime image
 FROM alpine:3.20
+RUN apk add --no-cache ca-certificates libgcc libstdc++
 RUN adduser -D -H -s /sbin/nologin appuser
-USER appuser
 WORKDIR /app
 
 COPY --from=builder /src/target/release/rust-executor /app/rust-executor
+RUN chown appuser:appuser /app/rust-executor
+
+USER appuser
 
 EXPOSE 4003
 ENTRYPOINT ["/app/rust-executor"]

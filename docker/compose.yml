@@ -2,10 +2,12 @@ name: forgeai
 
 services:
   mongodb:
-    image: mongo:7
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.mongodb
     container_name: forgeai-mongodb
     restart: unless-stopped
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--keyFile", "/data/replica.key"]
     ports:
       - "27017:27017"
     environment:
@@ -128,6 +130,7 @@ services:
       FORGE_DATABASE_URL: mongodb://forgeai:forgeai@mongodb:27017/forgeai?authSource=admin&replicaSet=rs0
       FORGE_REDIS_URL: redis://redis:6379
       FORGE_NATS_URL: nats://nats:4222
+      TEMPORAL_HOST_PORT: temporal:7233
     depends_on:
       mongodb:
         condition: service_healthy
@@ -135,8 +138,29 @@ services:
         condition: service_healthy
       nats:
         condition: service_healthy
+      temporal:
+        condition: service_healthy
     networks:
       - forgeai-net
+
+  temporal:
+    image: temporalio/auto-setup:latest
+    container_name: forgeai-temporal
+    restart: unless-stopped
+    ports:
+      - "7233:7233"
+      - "8233:8233"
+    environment:
+      - DB=sqlite
+      - DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/development-sql.yaml
+    networks:
+      - forgeai-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8233"] # Web UI check
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
   python-ai:
     build:
