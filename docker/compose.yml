@@ -143,6 +143,21 @@ services:
     networks:
       - forgeai-net
 
+  postgres-temporal:
+    image: postgres:15-alpine
+    container_name: forgeai-postgres-temporal
+    environment:
+      POSTGRES_USER: temporal
+      POSTGRES_PASSWORD: temporal
+      POSTGRES_DB: temporal
+    networks:
+      - forgeai-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U temporal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   temporal:
     image: temporalio/auto-setup:latest
     container_name: forgeai-temporal
@@ -151,12 +166,18 @@ services:
       - "7233:7233"
       - "8233:8233"
     environment:
-      - DB=sqlite
-      - DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/development-sql.yaml
+      - DB=postgres12
+      - DB_PORT=5432
+      - POSTGRES_USER=temporal
+      - POSTGRES_PWD=temporal
+      - POSTGRES_SEEDS=postgres-temporal
+    depends_on:
+      postgres-temporal:
+        condition: service_healthy
     networks:
       - forgeai-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8233"] # Web UI check
+      test: ["CMD", "temporal", "operator", "cluster", "health"]
       interval: 10s
       timeout: 5s
       retries: 10
