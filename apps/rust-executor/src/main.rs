@@ -18,6 +18,7 @@ use crate::{config::AppConfig, db::DbClients, state::AppState};
 async fn main() -> Result<(), error::AppError> {
     dotenvy::dotenv().ok();
     init_tracing();
+    info!("rust-executor starting up...");
 
     let config = AppConfig::from_env();
     let clients = DbClients::connect(&config).await?;

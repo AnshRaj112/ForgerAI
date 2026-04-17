@@ -1,4 +1,4 @@
-import { connect, consumerOpts, JSONCodec } from "nats";
+import { connect, consumerOpts, JSONCodec, createInbox } from "nats";
 import { logger } from "./logger.js";
 import { broadcastForgeEvent } from "./broadcast.js";
 
@@ -34,6 +34,7 @@ export async function startNatsBridge({ url, streamName, subject, durableName, p
   opts.durable(durableName);
   opts.manualAck();
   opts.ackExplicit();
+  opts.deliverTo(createInbox());
   opts.deliverNew();
 
   const sub = await js.subscribe(subject, opts);

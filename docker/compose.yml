@@ -139,7 +139,7 @@ services:
       nats:
         condition: service_healthy
       temporal:
-        condition: service_healthy
+        condition: service_started
     networks:
       - forgeai-net
 
@@ -167,8 +167,9 @@ services:
       - "8233:8233"
     environment:
       - DB=postgres12
-      - DB_PORT=5432
-      - POSTGRES_USER=temporal
+      - DB_PORT=${TEMPORAL_DB_PORT:-5432}
+      - BIND_ON_IP=0.0.0.0
+      - POSTGRES_USER=${TEMPORAL_POSTGRES_USER:-temporal}
       - POSTGRES_PWD=temporal
       - POSTGRES_SEEDS=postgres-temporal
     depends_on:
