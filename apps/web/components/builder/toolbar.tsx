@@ -98,7 +98,7 @@ export function BuilderToolbar({
           className={`${styles.toggleButton} ${paletteOpen ? styles.toggleButtonActive : ""}`}
           title="Toggle node palette"
         >
-          <PanelLeft size(16) />
+          <PanelLeft size={16} />
         </button>
 
         <div className={styles.divider} />
